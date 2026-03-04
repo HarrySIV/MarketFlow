@@ -3,6 +3,7 @@ import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
 import { Error } from './pages/Error';
+import { CreateAccount } from './pages/CreateAccount';
 
 import './App.css';
 
@@ -12,6 +13,8 @@ export function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/error" element={<Error />} />
+      <Route path="*" element={<Navigate to="/error" replace />} />
+      <Route path="/createaccount" element={<CreateAccount />} />
     </Routes>
   );
   return (
