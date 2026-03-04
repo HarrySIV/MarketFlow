@@ -16,7 +16,7 @@ export function App() {
   );
   return (
     <>
-      <div>
+      <div className="website">
         <BrowserRouter>
           <main>{routes}</main>
         </BrowserRouter>
