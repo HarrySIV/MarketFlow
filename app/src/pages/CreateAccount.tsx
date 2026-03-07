@@ -15,7 +15,6 @@ export function CreateAccount() {
     e.preventDefault();
     try {
       await axios.post('https://your-app.herokuapp.com/api/register', formData);
-      alert("Account Created!");
       navigate('/login'); // Send them to login after registering
     } catch (err) {
       console.error("Registration failed", err);
