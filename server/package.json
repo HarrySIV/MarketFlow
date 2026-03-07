@@ -20,6 +20,7 @@
     "typescript": "^5.9.3"
   },
   "scripts": {
+    "deploy": "git subtree push --prefix server heroku main",
     "dev": "nodemon --exec npx ts-node ./src/server.ts",
     "start": "node ./dist/server.js"
   }

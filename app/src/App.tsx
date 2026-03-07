@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 
 import { TokenContext } from './context/token';
-import { retrieveToken } from './utility/account-token';
+import { retrieveToken, storeToken } from './utility/account-token';
 
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -10,11 +10,27 @@ import { Error } from './pages/Error';
 import { CreateAccount } from './pages/CreateAccount';
 
 import './App.css';
+import axios from 'axios';
+import { serverURL } from './utility/environment';
 
 export function App() {
   const [token, setToken] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    const response = await axios.get(`${serverURL}/account/`);
+    const newToken = response.data.token;
+    storeToken(newToken);
+    setToken(newToken);
+  };
   useEffect(() => {
     setToken(retrieveToken());
+    if (token) {
+      try {
+        fetchData();
+      } catch (err) {
+        alert('Invalid email or password');
+      }
+    }
   }, []);
 
   const routes = (
