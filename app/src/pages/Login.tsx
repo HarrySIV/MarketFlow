@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import './Login.css'
 export function Login() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-
+  const handleCreate = ()=> {
+    navigate('/createaccount')
+  };
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -19,16 +21,18 @@ export function Login() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Login</h2>
+    <div className="logincontainer">
+      <h2 className="textcolor">Login</h2>
       <form onSubmit={handleLogin}>
-        <input type="email" placeholder="Email" required
+        <input className='textbox' type="email" placeholder="Email" required
           onChange={(e) => setLoginData({...loginData, email: e.target.value})} />
-        
-        <input type="password" placeholder="Password" required
+        <br></br>
+        <input className='textbox' type="password" placeholder="Password" required
           onChange={(e) => setLoginData({...loginData, password: e.target.value})} />
-        
-        <button type="submit">Login</button>
+        <br></br>  <br></br>
+        <button className='button' type="submit">Login</button>
+         <br></br>
+        <a className='create' onClick={handleCreate}>Create Account</a>
       </form>
     </div>
   );

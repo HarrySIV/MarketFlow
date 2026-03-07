@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import './CreateAccount.css'
 export function CreateAccount() {
   const [formData, setFormData] = useState({
     firstName: '',
@@ -22,22 +22,22 @@ export function CreateAccount() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Create Account</h2>
+    <div className="accountcontainer">
+      <h2 className='textcolor'>Create Account</h2>
       <form onSubmit={handleSubmit}>
-        <input type="text" placeholder="First Name" required
+        <input className='textbox' type="text" placeholder="First Name" required
           onChange={(e) => setFormData({...formData, firstName: e.target.value})} />
-        
-        <input type="text" placeholder="Last Name" required
+        <br></br>
+        <input className='textbox' type="text" placeholder="Last Name" required
           onChange={(e) => setFormData({...formData, lastName: e.target.value})} />
-        
-        <input type="email" placeholder="Email" required
+        <br></br>
+        <input className='textbox' type="email" placeholder="Email" required
           onChange={(e) => setFormData({...formData, email: e.target.value})} />
-        
-        <input type="password" placeholder="Password" required
+        <br></br>
+        <input className='textbox' type="password" placeholder="Password" required
           onChange={(e) => setFormData({...formData, password: e.target.value})} />
-        
-        <button type="submit">Register</button>
+        <br></br><br></br>
+        <button className='button' type="submit">Register</button>
       </form>
     </div>
   );
