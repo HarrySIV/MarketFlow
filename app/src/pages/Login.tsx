@@ -1,19 +1,28 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { serverURL } from '../utility/environment';
+import { TokenContext } from '../context/token';
+import { storeToken } from '../utility/account-token';
 
 export function Login() {
+  const token = useContext(TokenContext);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${serverURL}/login`, loginData);
-      console.log(response);
+      const response = await axios.post(
+        `${serverURL}/account/login`,
+        loginData,
+      );
+      const newToken = response.data.token;
+      storeToken(newToken);
+      token?.setToken(newToken);
       if (response.status === 200) {
+        // localStorage.setItem('marketflow-token', response.data.token);
         navigate('/'); // Redirect to Home
       }
     } catch (err) {

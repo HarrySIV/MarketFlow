@@ -1,5 +1,8 @@
-import { createContext } from 'react';
+import { useEffect, useState } from 'react';
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
+
+import { TokenContext } from './context/token';
+import { retrieveToken } from './utility/account-token';
 
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -9,8 +12,11 @@ import { CreateAccount } from './pages/CreateAccount';
 import './App.css';
 
 export function App() {
-  const token = localStorage.getItem('marketflow-token');
-  const TokenContext = createContext(token);
+  const [token, setToken] = useState<string | null>(null);
+  useEffect(() => {
+    setToken(retrieveToken());
+  }, []);
+
   const routes = (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -21,12 +27,12 @@ export function App() {
     </Routes>
   );
   return (
-    <TokenContext value={token}>
+    <TokenContext.Provider value={{ token, setToken }}>
       <div className="website">
         <BrowserRouter>
           <main>{routes}</main>
         </BrowserRouter>
       </div>
-    </TokenContext>
+    </TokenContext.Provider>
   );
 }
