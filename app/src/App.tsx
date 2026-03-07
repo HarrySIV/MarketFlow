@@ -1,3 +1,4 @@
+import { createContext } from 'react';
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 
 import { Home } from './pages/Home';
@@ -8,6 +9,8 @@ import { CreateAccount } from './pages/CreateAccount';
 import './App.css';
 
 export function App() {
+  const token = localStorage.getItem('marketflow-token');
+  const TokenContext = createContext(token);
   const routes = (
     <Routes>
       <Route path="/" element={<Home />} />
@@ -18,12 +21,12 @@ export function App() {
     </Routes>
   );
   return (
-    <>
+    <TokenContext value={token}>
       <div className="website">
         <BrowserRouter>
           <main>{routes}</main>
         </BrowserRouter>
       </div>
-    </>
+    </TokenContext>
   );
 }

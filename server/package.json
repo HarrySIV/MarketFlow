@@ -15,10 +15,11 @@
     "@types/mongoose": "^5.11.96",
     "@types/node": "^25.3.3",
     "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   },
   "scripts": {
-    "dev": "nodemon ./src/server.ts",
+    "dev": "nodemon --exec npx ts-node ./src/server.ts",
     "start": "node ./dist/server.js"
   }
 }
