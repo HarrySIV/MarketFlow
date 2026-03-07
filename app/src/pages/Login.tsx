@@ -6,7 +6,7 @@ export function Login() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       const response = await axios.post('https://your-app.herokuapp.com/api/login', loginData);

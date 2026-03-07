@@ -11,7 +11,7 @@ export function CreateAccount() {
   });
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await axios.post('https://your-app.herokuapp.com/api/register', formData);
