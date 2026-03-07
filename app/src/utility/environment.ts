@@ -1,1 +1,1 @@
-export const serverURL = 'server.com/api';
+export const serverURL = 'http://localhost:5001/api';

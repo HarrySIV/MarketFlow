@@ -16,7 +16,11 @@ export function CreateAccount() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post(`${serverURL}/createaccount`, formData);
+      await axios
+        .post(`${serverURL}/account/create-account`, formData)
+        .then(function (response) {
+          console.log(response);
+        });
       navigate('/login'); // Send them to login after registering
     } catch (err) {
       console.error('Registration failed', err);

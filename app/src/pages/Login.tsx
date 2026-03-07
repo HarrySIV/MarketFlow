@@ -12,6 +12,7 @@ export function Login() {
     e.preventDefault();
     try {
       const response = await axios.post(`${serverURL}/login`, loginData);
+      console.log(response);
       if (response.status === 200) {
         navigate('/'); // Redirect to Home
       }

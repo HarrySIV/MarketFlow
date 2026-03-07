@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import express from 'express';
 import mongoose from 'mongoose';
 import { HttpError } from './utility/http-error';
@@ -6,11 +8,7 @@ const accountRoutes = require('./routes/account-routes');
 
 const server = express();
 
-server.use(
-  express.urlencoded({
-    extended: true,
-  }),
-);
+server.use(express.json());
 
 // sets headers for API
 server.use((req, res, next) => {
@@ -34,14 +32,12 @@ server.use((req, res, next) => {
 const dbURL = process.env.DB;
 const port = process.env.PORT;
 
-server.listen(5001);
-
-// mongoose.set('strictQuery', false);
-// mongoose
-//   .connect(`${dbURL}`)
-//   .then(() => {
-//     server.listen(port || 5001);
-//   })
-//   .catch((error) => {
-//     const err = new HttpError('mongodb service not connected', 502);
-//   });
+mongoose.set('strictQuery', false);
+mongoose
+  .connect(`${dbURL}`)
+  .then(() => {
+    server.listen(port || 5001);
+  })
+  .catch((error) => {
+    const err = new HttpError('mongodb service not connected', 502);
+  });

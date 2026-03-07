@@ -7,14 +7,14 @@ import { HttpError } from '../utility/http-error';
 import Account, { TAccount } from '../models/Account';
 
 export const createAccount: RequestHandler = async (req, res, next) => {
-  const { firstName, lastName, email, typedPass } = req.body;
+  const { firstName, lastName, email, password } = req.body;
 
   // checks if req.body is empty, throws an error and continues without creating a work.
   if (Object.keys(req.body).length === 0) {
     const err = new HttpError(`The request body was empty`, 500);
     return next(err);
   }
-  const hashedPass = hashPassword(typedPass);
+  const hashedPass = await hashPassword(password);
   const createdAccount = new Account({
     firstName: firstName,
     lastName: lastName,
@@ -22,14 +22,18 @@ export const createAccount: RequestHandler = async (req, res, next) => {
     hashPass: hashedPass,
   });
   try {
+    console.log(createdAccount);
     const currentSession = await mongoose.startSession();
     await createdAccount.save();
     await currentSession.endSession();
   } catch (error) {
     const err = new HttpError('could not create account', 500);
+    return next(err);
   }
 
-  res.json({ account: createdAccount, message: 'account created!' });
+  res
+    .status(201)
+    .json({ account: createdAccount, message: 'account created!' });
 };
 
 export const getAccount: RequestHandler = async (req, res, next) => {
