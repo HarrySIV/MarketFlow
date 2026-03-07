@@ -7,13 +7,12 @@ import { HttpError } from '../utility/http-error';
 import Account, { TAccount } from '../models/Account';
 
 export const createAccount: RequestHandler = async (req, res, next) => {
-  const { firstName, lastName, email, password } = req.body;
-
   // checks if req.body is empty, throws an error and continues without creating a work.
   if (Object.keys(req.body).length === 0) {
     const err = new HttpError(`The request body was empty`, 500);
     return next(err);
   }
+  const { firstName, lastName, email, password } = req.body;
   const hashedPass = await hashPassword(password);
   const createdAccount = new Account({
     firstName: firstName,
@@ -37,7 +36,7 @@ export const createAccount: RequestHandler = async (req, res, next) => {
 };
 
 export const getAccount: RequestHandler = async (req, res, next) => {
-  const { typedEmail, token } = req.body;
+  const data = req.body;
 
   // checks if req.body is empty, throws an error and continues without creating a work.
   if (Object.keys(req.body).length === 0) {
@@ -46,16 +45,19 @@ export const getAccount: RequestHandler = async (req, res, next) => {
   }
 
   let tokenData = null;
-  if (token) {
+  if (data.token) {
     try {
-      tokenData = jwt.verify(token, process.env.SECRET_KEY!);
+      tokenData = jwt.verify(data.token, process.env.SECRET_KEY!);
     } catch (error) {
       const err = new HttpError('could not find account', 500);
     }
   }
 
   let account: TAccount | null = null;
-  let email = typedEmail;
+  let email = null;
+  if (data.email) {
+    email = data.email;
+  }
   if (tokenData) {
     try {
       const parsedToken = JSON.parse(tokenData as string);
@@ -65,14 +67,16 @@ export const getAccount: RequestHandler = async (req, res, next) => {
     }
   }
 
-  try {
-    account = await Account.findOne({ email: email });
-  } catch (error) {
-    const err = new HttpError('could not find account', 500);
+  let newToken = null;
+  if (email) {
+    try {
+      account = await Account.findOne({ email: email });
+      newToken = jwt.sign({ email: email }, process.env.SECRET_KEY!, {
+        expiresIn: '30d',
+      });
+    } catch (error) {
+      const err = new HttpError('could not find account', 500);
+    }
   }
-
-  const newToken = jwt.sign({ email: email }, process.env.SECRET_KEY!, {
-    expiresIn: '30d',
-  });
   res.json({ account: account, token: newToken });
 };

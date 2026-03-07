@@ -33,7 +33,6 @@ const dbURL = process.env.DB;
 const port = process.env.PORT;
 
 mongoose.set('strictQuery', false);
-console.log(dbURL, port);
 mongoose
   .connect(`${dbURL}`)
   .then(() => {
