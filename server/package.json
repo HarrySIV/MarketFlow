@@ -22,6 +22,7 @@
   "scripts": {
     "deploy": "git subtree push --prefix server heroku main",
     "dev": "nodemon --exec npx ts-node ./src/server.ts",
+    "postinstall": "tsc",
     "start": "node ./dist/server.js"
   }
 }
