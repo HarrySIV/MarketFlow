@@ -1,0 +1,30 @@
+.accountcontainer {
+    border: 2px solid black;
+    padding: 100px;
+    border-radius: 10px;
+    background-color: lightgray;
+    
+}
+
+.createcontainer {
+            width: auto;
+            height: auto;
+            background-color: whitesmoke;
+            border: 2px solid gray;
+            padding: 10px;
+            margin: 10px;
+        }
+        
+.createtextbox
+{
+       border-radius: 10px;
+       height: 20px;
+       background-color: lightgrey;
+}
+.accounttextcolor{
+    color: skyblue;
+}
+
+.accountbutton{
+    background-color: lightskyblue
+}

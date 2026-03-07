@@ -6,11 +6,14 @@ import { serverURL } from '../utility/environment';
 import { TokenContext } from '../context/token';
 import { storeToken } from '../utility/account-token';
 
+import './Login.css'
 export function Login() {
   const token = useContext(TokenContext);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
-
+  const handleCreate = ()=> {
+    navigate('/createaccount')
+  };
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -31,10 +34,12 @@ export function Login() {
   };
 
   return (
-    <div className="form-container">
-      <h2>Login</h2>
+    <div className="maincontainer">
+      <h1 className="textcolor">MarketFlow</h1>
+      <div className="logincontainer">
+      <h2 className="textcolor">Login</h2>
       <form onSubmit={handleLogin}>
-        <input
+        <input className='logintextbox'
           type="email"
           placeholder="Email"
           required
@@ -42,8 +47,8 @@ export function Login() {
             setLoginData({ ...loginData, email: e.target.value })
           }
         />
-
-        <input
+<br></br><br></br>
+        <input className='logintextbox'
           type="password"
           placeholder="Password"
           required
@@ -51,9 +56,12 @@ export function Login() {
             setLoginData({ ...loginData, password: e.target.value })
           }
         />
-
-        <button type="submit">Login</button>
+<br></br><br></br>&emsp;&emsp;&emsp;&emsp;&emsp;
+        <button className="button" type="submit">Login</button>
+        <br></br>&emsp;&emsp;&emsp;
+        <a href="/CreateAccount">Create an Account</a>
       </form>
+      </div>
     </div>
   );
 }
