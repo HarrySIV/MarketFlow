@@ -24,10 +24,12 @@ export function Login() {
   };
 
   return (
-    <div className="logincontainer">
+    <div className="maincontainer">
+      <h1 className="textcolor">MarketFlow</h1>
+      <div className="logincontainer">
       <h2 className="textcolor">Login</h2>
       <form onSubmit={handleLogin}>
-        <input
+        <input className='logintextbox'
           type="email"
           placeholder="Email"
           required
@@ -35,8 +37,8 @@ export function Login() {
             setLoginData({ ...loginData, email: e.target.value })
           }
         />
-
-        <input
+<br></br><br></br>
+        <input className='logintextbox'
           type="password"
           placeholder="Password"
           required
@@ -44,9 +46,12 @@ export function Login() {
             setLoginData({ ...loginData, password: e.target.value })
           }
         />
-
-        <button type="submit">Login</button>
+<br></br><br></br>&emsp;&emsp;&emsp;&emsp;&emsp;
+        <button className="button" type="submit">Login</button>
+        <br></br>&emsp;&emsp;&emsp;
+        <a href="/CreateAccount">Create an Account</a>
       </form>
+      </div>
     </div>
   );
 }

@@ -1,14 +1,23 @@
-.logincontainer {
-     border: 2px solid black;
+.maincontainer {
+    border: 2px solid black;
     padding: 100px;
     border-radius: 10px;
-    background-color: whitesmoke;
-    
+    background-color: lightgrey;
 }
-.textbox
+
+.logincontainer {
+            width: auto;
+            height: auto;
+            background-color: whitesmoke;
+            border: 2px solid gray;
+            padding: 10px;
+            margin: 10px;
+        }
+.logintextbox
 {
        border-radius: 10px;
-       background-color: lightskyblue;
+       height: 20px;
+       background-color: lightgrey;
 }
 
 .textcolor{
@@ -16,5 +25,5 @@
 }
 
 .button{
-    background-color: lightskyblue
+    background-color: skyblue
 }

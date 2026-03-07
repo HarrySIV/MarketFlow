@@ -26,9 +26,12 @@ export function CreateAccount() {
 
   return (
     <div className="accountcontainer">
+      <h1 className="textcolor">MarketFlow</h1>
+      <div className='createcontainer'>
       <h2 className='textcolor'>Create Account</h2>
       <form onSubmit={handleSubmit}>
-        <input
+
+        <input className='createtextbox'
           type="text"
           placeholder="First Name"
           required
@@ -36,8 +39,8 @@ export function CreateAccount() {
             setFormData({ ...formData, firstName: e.target.value })
           }
         />
-
-        <input
+&nbsp;
+        <input className='createtextbox'
           type="text"
           placeholder="Last Name"
           required
@@ -45,15 +48,15 @@ export function CreateAccount() {
             setFormData({ ...formData, lastName: e.target.value })
           }
         />
-
-        <input
+<br></br><br></br>
+        <input className='createtextbox'
           type="email"
           placeholder="Email"
           required
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
-
-        <input
+&nbsp;
+        <input className='createtextbox'
           type="password"
           placeholder="Password"
           required
@@ -61,9 +64,12 @@ export function CreateAccount() {
             setFormData({ ...formData, password: e.target.value })
           }
         />
-
-        <button type="submit">Register</button>
+<br></br><br></br>
+        <button className='accountbutton'type="submit">Register</button>
+        &emsp;&emsp;&emsp;&emsp;&emsp;
+        <a href="/Login">Return to Login</a>
       </form>
+      </div>
     </div>
   );
 }
