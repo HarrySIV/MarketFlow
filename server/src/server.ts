@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import { HttpError } from './utility/http-error.ts';
+import { HttpError } from './utility/http-error';
+
+const accountRoutes = require('./routes/account-routes');
 
 const server = express();
 
@@ -22,6 +24,8 @@ server.use((req, res, next) => {
   next();
 });
 
+server.use('/api/account', accountRoutes);
+
 server.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
   throw error;
@@ -30,12 +34,14 @@ server.use((req, res, next) => {
 const dbURL = process.env.DB;
 const port = process.env.PORT;
 
-mongoose.set('strictQuery', false);
-mongoose
-  .connect(`${dbURL}`)
-  .then(() => {
-    server.listen(port || 5001);
-  })
-  .catch((error) => {
-    const err = new HttpError('mongodb service not connected', 502);
-  });
+server.listen(5001);
+
+// mongoose.set('strictQuery', false);
+// mongoose
+//   .connect(`${dbURL}`)
+//   .then(() => {
+//     server.listen(port || 5001);
+//   })
+//   .catch((error) => {
+//     const err = new HttpError('mongodb service not connected', 502);
+//   });

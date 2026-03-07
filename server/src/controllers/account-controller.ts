@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import mongoose from 'mongoose';
+import jwt from 'jsonwebtoken';
 
 import { hashPassword, comparePassword } from '../middleware/hashing';
 import { HttpError } from '../utility/http-error';
 import Account, { TAccount } from '../models/Account';
-import { storeToken, retrieveToken } from '../middleware/account-token';
 
 export const createAccount: RequestHandler = async (req, res, next) => {
   const { firstName, lastName, email, typedPass } = req.body;
@@ -33,28 +33,33 @@ export const createAccount: RequestHandler = async (req, res, next) => {
 };
 
 export const getAccount: RequestHandler = async (req, res, next) => {
-  let { email } = req.body;
-
-  const token = retrieveToken();
-  if (token) {
-    try {
-      const storedAccount = JSON.parse(token);
-      email = storedAccount.email;
-    } catch (error) {
-      const err = new HttpError('token failed to parse', 500);
-    }
-  }
+  const { typedEmail, token } = req.body;
 
   // checks if req.body is empty, throws an error and continues without creating a work.
-  if (!email && !token) {
-    const err = new HttpError(
-      `The request body was empty and/or there was no token`,
-      500,
-    );
+  if (Object.keys(req.body).length === 0) {
+    const err = new HttpError(`The request body was empty`, 500);
     return next(err);
   }
 
+  let tokenData = null;
+  if (token) {
+    try {
+      tokenData = jwt.verify(token, process.env.SECRET_KEY!);
+    } catch (error) {
+      const err = new HttpError('could not find account', 500);
+    }
+  }
+
   let account: TAccount | null = null;
+  let email = typedEmail;
+  if (tokenData) {
+    try {
+      const parsedToken = JSON.parse(tokenData as string);
+      email = parsedToken.email;
+    } catch (error) {
+      const err = new HttpError('could not find account', 500);
+    }
+  }
 
   try {
     account = await Account.findOne({ email: email });
@@ -62,7 +67,8 @@ export const getAccount: RequestHandler = async (req, res, next) => {
     const err = new HttpError('could not find account', 500);
   }
 
-  if (account && email && !token) storeToken(JSON.stringify(email));
-
-  res.json({ account: account });
+  const newToken = jwt.sign({ email: email }, process.env.SECRET_KEY!, {
+    expiresIn: '30d',
+  });
+  res.json({ account: account, token: newToken });
 };

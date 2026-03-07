@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+import { serverURL } from '../utility/environment';
+
 import './Login.css'
 export function Login() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -11,12 +14,12 @@ export function Login() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://your-app.herokuapp.com/api/login', loginData);
+      const response = await axios.post(`${serverURL}/login`, loginData);
       if (response.status === 200) {
         navigate('/'); // Redirect to Home
       }
     } catch (err) {
-      alert("Invalid email or password");
+      alert('Invalid email or password');
     }
   };
 
@@ -24,15 +27,25 @@ export function Login() {
     <div className="logincontainer">
       <h2 className="textcolor">Login</h2>
       <form onSubmit={handleLogin}>
-        <input className='textbox' type="email" placeholder="Email" required
-          onChange={(e) => setLoginData({...loginData, email: e.target.value})} />
-        <br></br>
-        <input className='textbox' type="password" placeholder="Password" required
-          onChange={(e) => setLoginData({...loginData, password: e.target.value})} />
-        <br></br>  <br></br>
-        <button className='button' type="submit">Login</button>
-         <br></br>
-        <a className='create' onClick={handleCreate}>Create Account</a>
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          onChange={(e) =>
+            setLoginData({ ...loginData, email: e.target.value })
+          }
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          onChange={(e) =>
+            setLoginData({ ...loginData, password: e.target.value })
+          }
+        />
+
+        <button type="submit">Login</button>
       </form>
     </div>
   );
