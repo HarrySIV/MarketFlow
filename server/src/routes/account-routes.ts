@@ -4,7 +4,6 @@ import { createAccount, getAccount } from '../controllers/account-controller';
 const router = Router();
 
 router.post('/create-account', createAccount);
-router.get('/', getAccount);
 router.post('/login', getAccount);
 
 // router.put();

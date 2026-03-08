@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { serverURL } from '../utility/environment';
-import { TokenContext } from '../context/token';
+import { AccountContext } from '../context/account-context';
 import { storeToken } from '../utility/account-token';
 
 import './Login.css';
 export function Login() {
-  const token = useContext(TokenContext);
+  const accountInfo = useContext(AccountContext);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
   const handleLogin = async (e: React.FormEvent) => {
@@ -18,11 +18,15 @@ export function Login() {
         `${serverURL}/account/login`,
         loginData,
       );
-      const newToken = response.data.token;
-      storeToken(newToken);
-      token?.setToken(newToken);
+      const data = response.data;
+      storeToken(data.token);
+      accountInfo?.setAccountInfo({
+        firstName: data.firstName,
+        lastName: data.lasttName,
+        email: data.email,
+        token: data.token,
+      });
       if (response.status === 200) {
-        // localStorage.setItem('marketflow-token', response.data.token);
         navigate('/'); // Redirect to Home
       }
     } catch (err) {

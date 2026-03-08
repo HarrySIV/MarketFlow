@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 
-import { TokenContext } from './context/token';
+import { AccountContext, type TAccountInfo } from './context/account-context';
 import { retrieveToken, storeToken } from './utility/account-token';
 
 import { Home } from './pages/Home';
@@ -14,22 +14,29 @@ import axios from 'axios';
 import { serverURL } from './utility/environment';
 
 export function App() {
-  const [token, setToken] = useState<string | null>(null);
+  const [accountInfo, setAccountInfo] = useState<TAccountInfo | null>(null);
 
-  const fetchData = async () => {
-    const response = await axios.get(`${serverURL}/account/`);
-    const newToken = response.data.token;
+  const fetchData = async (token: string) => {
+    const response = await axios.post(`${serverURL}/account/login`, {
+      token: token,
+    });
+    const data = response.data;
+    const newToken = data.token;
+    const accountData = {
+      firstName: data.firstName as string,
+      lastName: data.lastName as string,
+      email: data.email as string,
+      token: data.token as string,
+    };
+    setAccountInfo(accountData);
     storeToken(newToken);
-    setToken(newToken);
   };
   useEffect(() => {
-    setToken(retrieveToken());
-    if (token) {
+    const storedToken = retrieveToken();
+    if (storedToken) {
       try {
-        fetchData();
-      } catch (err) {
-        alert('Invalid email or password');
-      }
+        fetchData(storedToken);
+      } catch (err) {}
     }
   }, []);
 
@@ -43,12 +50,12 @@ export function App() {
     </Routes>
   );
   return (
-    <TokenContext.Provider value={{ token, setToken }}>
+    <AccountContext.Provider value={{ accountInfo, setAccountInfo }}>
       <div className="website">
         <BrowserRouter>
           <main>{routes}</main>
         </BrowserRouter>
       </div>
-    </TokenContext.Provider>
+    </AccountContext.Provider>
   );
 }

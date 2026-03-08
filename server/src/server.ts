@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import { HttpError } from './utility/http-error';
 
 const accountRoutes = require('./routes/account-routes');
+const productRoutes = require('./routes/product-routes');
 
 const server = express();
 
@@ -23,6 +24,7 @@ server.use((req, res, next) => {
 });
 
 server.use('/api/account', accountRoutes);
+server.use('/api/product', productRoutes);
 
 server.use((req, res, next) => {
   const error = new HttpError('Could not find this route.', 404);
