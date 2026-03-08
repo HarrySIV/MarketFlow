@@ -18,8 +18,8 @@ export function Login() {
         `${serverURL}/account/login`,
         loginData,
       );
-      const data = response.data;
-      storeToken(data.token);
+      const data = response.data.account;
+      storeToken(response.data.token);
       accountInfo?.setAccountInfo({
         firstName: data.firstName,
         lastName: data.lasttName,
