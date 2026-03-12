@@ -12,6 +12,8 @@ import { CreateAccount } from './pages/CreateAccount';
 import './App.css';
 import axios from 'axios';
 import { serverURL } from './utility/environment';
+import { Header } from './components/header/Header';
+import { Profile } from './pages/Profile';
 
 export function App() {
   const [accountInfo, setAccountInfo] = useState<TAccountInfo | null>(null);
@@ -47,14 +49,16 @@ export function App() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/error" element={<Error />} />
-      <Route path="*" element={<Navigate to="/error" replace />} />
       <Route path="/createaccount" element={<CreateAccount />} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="*" element={<Navigate to="/error" replace />} />
     </Routes>
   );
   return (
     <AccountContext.Provider value={{ accountInfo, setAccountInfo }}>
       <div className="website">
         <BrowserRouter>
+          <Header />
           <main>{routes}</main>
         </BrowserRouter>
       </div>
