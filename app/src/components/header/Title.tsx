@@ -1,7 +1,7 @@
 export const Title = () => {
   return (
     <>
-      <h1>MarketFlow</h1>
+      <h1 className="textcolor">MarketFlow</h1>
     </>
   );
 };
