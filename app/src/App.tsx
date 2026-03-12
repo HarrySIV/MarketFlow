@@ -16,23 +16,25 @@ import { serverURL } from './utility/environment';
 export function App() {
   const [accountInfo, setAccountInfo] = useState<TAccountInfo | null>(null);
 
-  const fetchData = async (token: string) => {
-    const response = await axios.post(`${serverURL}/account/login`, {
-      token: token,
-    });
-    const data = response.data;
-    const newToken = data.token;
-    const accountData = {
-      firstName: data.firstName as string,
-      lastName: data.lastName as string,
-      email: data.email as string,
-      token: data.token as string,
-    };
-    setAccountInfo(accountData);
-    storeToken(newToken);
-  };
   useEffect(() => {
+    const fetchData = async (token: string) => {
+      const response = await axios.post(`${serverURL}/account/login`, {
+        token: token,
+      });
+      const data = response.data;
+      const newToken = data.token;
+      const accountData = {
+        firstName: data.firstName as string,
+        lastName: data.lastName as string,
+        email: data.email as string,
+        token: data.token as string,
+      };
+      setAccountInfo(accountData);
+      storeToken(newToken);
+      console.log(accountData, newToken);
+    };
     const storedToken = retrieveToken();
+    console.log(storedToken);
     if (storedToken) {
       try {
         fetchData(storedToken);
