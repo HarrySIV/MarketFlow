@@ -20,7 +20,7 @@ export function Login() {
       );
       const data = response.data.account;
       storeToken(response.data.token);
-      accountInfo?.setAccountInfo({
+      accountInfo?.setAccountInfo!({
         firstName: data.firstName,
         lastName: data.lasttName,
         email: data.email,
