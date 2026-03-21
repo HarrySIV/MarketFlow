@@ -3,9 +3,10 @@ import { useContext } from 'react';
 import { Product } from '../components/Product';
 import { AccountContext } from '../context/account-context';
 
-import './Home.css';
 import { Button } from '../components/ui/Button';
 import { useNavigate } from 'react-router-dom';
+
+import './css/Home.css';
 
 export function Home() {
   const accountInfo = useContext(AccountContext);

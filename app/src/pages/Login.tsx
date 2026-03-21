@@ -6,7 +6,7 @@ import { serverURL } from '../utility/environment';
 import { AccountContext } from '../context/account-context';
 import { storeToken } from '../utility/account-token';
 
-import './Login.css';
+import './css/Login.css';
 export function Login() {
   const accountInfo = useContext(AccountContext);
   const [loginData, setLoginData] = useState({ email: '', password: '' });
