@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { AccountContext, type TAccountInfo } from './context/account-context';
 import { retrieveToken, storeToken } from './utility/account-token';
-import { serverURL, testServerURL } from './utility/environment';
+import { serverURL } from './utility/environment';
 
 import { Home } from './pages/Home';
 import { Login } from './pages/Login';
@@ -25,7 +25,7 @@ export function App() {
 
   useEffect(() => {
     const fetchData = async (token: string) => {
-      const response = await axios.post(`${testServerURL}/account/login`, {
+      const response = await axios.post(`${serverURL}/account/login`, {
         token,
       });
       const data = response.data;

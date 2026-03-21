@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef, useState, type Ref } from 'react';
 import axios from 'axios';
 
 import { AccountContext } from '../context/account-context';
-import { serverURL, testServerURL } from '../utility/environment';
+import { serverURL } from '../utility/environment';
 import { Button } from '../components/ui/Button';
 
 import './css/Profile.css';
@@ -30,10 +30,7 @@ export const Profile = () => {
     };
     let response = null;
     try {
-      response = await axios.put(
-        `${testServerURL}/account/update`,
-        accountData,
-      );
+      response = await axios.put(`${serverURL}/account/update`, accountData);
       const data = response?.data;
       accountInfo.setAccountInfo!({
         firstName: data.account.firstName,
