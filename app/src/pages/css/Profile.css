@@ -1,3 +1,37 @@
 h3 {
   color: black;
 }
+.maincontainer {
+    border: 2px solid black;
+    padding: 100px;
+    border-radius: 10px;
+    background-color: lightgrey;
+}
+
+.profilecontainer {
+    width: auto;
+    height: auto;
+    background-color: whitesmoke;
+    border: 2px solid gray;
+    padding: 10px;
+    margin: 10px;
+}
+
+.profiletextbox {
+          border-radius: 10px;
+       height: 20px;
+       background-color: lightgrey;
+}
+
+.textcolor {
+    color: skyblue;
+}
+
+.button {
+    background-color: skyblue;
+}
+
+.profile-label {
+    font-weight: bold;
+    color: skyblue;
+}

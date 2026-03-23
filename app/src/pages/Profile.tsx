@@ -43,14 +43,14 @@ export const Profile = () => {
       console.error('Account failed to update', err);
     }
   };
-  return (
+return (
     <>
       <h1>Profile</h1>
-      <div>
+      <div className="maincontainer">
         {isEditing ? (
-          <form onSubmit={handleSubmit} className="form">
+          <form onSubmit={handleSubmit} className="profilecontainer">
             <input
-              className="createtextbox"
+              className="profiletextbox"
               type="text"
               placeholder="First Name"
               defaultValue={accountInfo.accountInfo.firstName || undefined}
@@ -58,7 +58,7 @@ export const Profile = () => {
               required
             />
             <input
-              className="createtextbox"
+              className="profiletextbox"
               type="text"
               placeholder="Last Name"
               defaultValue={accountInfo.accountInfo.lastName || undefined}
@@ -68,7 +68,7 @@ export const Profile = () => {
             <br></br>
             <br></br>
             <input
-              className="createtextbox"
+              className="profiletextbox"
               type="email"
               placeholder="Email"
               defaultValue={accountInfo.accountInfo.email || undefined}
@@ -76,7 +76,7 @@ export const Profile = () => {
               required
             />
             <input
-              className="createtextbox"
+              className="profiletextbox"
               type="password"
               placeholder="Password"
               ref={passwordRef as Ref<HTMLInputElement>}
@@ -84,18 +84,19 @@ export const Profile = () => {
             />
             <br></br>
             <br></br>
-            <button className="accountbutton" type="submit">
+            <button className="button" type="submit">
               Submit
             </button>
-            <Button name="CANCEL" onClick={() => setIsEditing(false)} />
+            <Button className="button" name="CANCEL" onClick={() => setIsEditing(false)} />
           </form>
         ) : (
           <>
-            <Button name="edit" onClick={() => setIsEditing(true)} />
+            
             <h3>First Name: {accountInfo?.accountInfo?.firstName}</h3>
             <h3>Last Name: {accountInfo?.accountInfo?.lastName}</h3>
             <h3>E-mail: {accountInfo?.accountInfo?.email}</h3>
-          </>
+          <Button className="button" name="edit" onClick={() => setIsEditing(true)} />
+            </>
         )}
       </div>
     </>
