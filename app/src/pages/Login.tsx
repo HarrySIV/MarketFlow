@@ -22,7 +22,7 @@ export function Login() {
       storeToken(response.data.token);
       accountInfo?.setAccountInfo!({
         firstName: data.firstName,
-        lastName: data.lasttName,
+        lastName: data.lastName,
         email: data.email,
         token: data.token,
       });

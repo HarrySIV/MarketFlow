@@ -29,7 +29,6 @@ export function App() {
         token,
       });
       const data = response.data;
-      console.log(data);
       const accountData = {
         firstName: data.account.firstName as string,
         lastName: data.account.lastName as string,

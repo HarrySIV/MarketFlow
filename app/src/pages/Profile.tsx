@@ -1,23 +1,22 @@
-import { useContext, useEffect, useRef, useState, type Ref } from 'react';
+import { useContext, useRef, useState, type Ref } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { AccountContext } from '../context/account-context';
-import { serverURL } from '../utility/environment';
+import { serverURL, testServerURL } from '../utility/environment';
 import { Button } from '../components/ui/Button';
 
 import './css/Profile.css';
+import { storeToken } from '../utility/account-token';
 
 export const Profile = () => {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const accountInfo = useContext(AccountContext);
   const firstNameRef = useRef(null);
   const lastNameRef = useRef(null);
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
-
-  useEffect(() => {
-    console.log(accountInfo.accountInfo);
-  }, [accountInfo]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -43,7 +42,35 @@ export const Profile = () => {
       console.error('Account failed to update', err);
     }
   };
-return (
+
+  const deleteAccount = async () => {
+    let response = null;
+    const accountData = {
+      firstName: firstNameRef.current?.value,
+      lastName: lastNameRef.current?.value,
+      email: emailRef.current?.value,
+      password: passwordRef.current?.value,
+      token: accountInfo?.accountInfo?.token,
+    };
+    try {
+      response = await axios.delete(`${testServerURL}/account/delete`, {
+        data: accountData,
+      });
+      accountInfo.setAccountInfo!({
+        firstName: '',
+        lastName: '',
+        email: '',
+        token: '',
+      });
+      storeToken('');
+      setIsEditing(false);
+      navigate('/login');
+    } catch (err) {
+      console.error('Account failed to delete', err);
+    }
+  };
+
+  return (
     <>
       <h1>Profile</h1>
       <div className="maincontainer">
@@ -87,16 +114,24 @@ return (
             <button className="button" type="submit">
               Submit
             </button>
-            <Button className="button" name="CANCEL" onClick={() => setIsEditing(false)} />
+            <Button
+              className="button"
+              name="CANCEL"
+              onClick={() => setIsEditing(false)}
+            />
+            <Button className="button" name="delete" onClick={deleteAccount} />
           </form>
         ) : (
           <>
-            
             <h3>First Name: {accountInfo?.accountInfo?.firstName}</h3>
             <h3>Last Name: {accountInfo?.accountInfo?.lastName}</h3>
             <h3>E-mail: {accountInfo?.accountInfo?.email}</h3>
-          <Button className="button" name="edit" onClick={() => setIsEditing(true)} />
-            </>
+            <Button
+              className="button"
+              name="edit"
+              onClick={() => setIsEditing(true)}
+            />
+          </>
         )}
       </div>
     </>
