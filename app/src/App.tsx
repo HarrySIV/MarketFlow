@@ -58,7 +58,7 @@ export function App() {
   );
   return (
     <AccountContext.Provider value={{ accountInfo, setAccountInfo }}>
-      <div className="website">
+      <div className="maincontainer">
         <BrowserRouter>
           <Header />
           <main>{routes}</main>

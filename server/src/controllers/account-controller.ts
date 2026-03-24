@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
 
 import { hashPassword, comparePassword } from '../middleware/hashing';
 import { HttpError } from '../utility/http-error';
@@ -75,7 +74,7 @@ export const getAccount: RequestHandler = async (req, res, next) => {
     return next(err);
   }
   if (account && data.password) {
-    const isPass = await bcrypt.compare(data.password, account.hashPass);
+    const isPass = await comparePassword(data.password, account.hashPass);
     if (isPass) {
       try {
         newToken = jwt.sign({ email: email }, process.env.SECRET_KEY!, {
@@ -181,7 +180,7 @@ export const deleteAccount: RequestHandler = async (req, res, next) => {
     return next(err);
   }
   if (account && data.password) {
-    const isPass = await bcrypt.compare(data.password, account.hashPass);
+    const isPass = await comparePassword(data.password, account.hashPass);
     if (isPass) {
       try {
         await Account.deleteOne({ email: email });

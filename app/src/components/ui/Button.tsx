@@ -1,3 +1,5 @@
+import './Button.css';
+
 type TButtonProps = {
   name: string;
   className?: string;
@@ -6,7 +8,7 @@ type TButtonProps = {
 
 export const Button = (props: TButtonProps) => {
   return (
-    <button className={props.className + 'button'} onClick={props.onClick}>
+    <button className={props.className} onClick={props.onClick}>
       {props.name}
     </button>
   );

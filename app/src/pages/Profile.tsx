@@ -5,9 +5,9 @@ import axios from 'axios';
 import { AccountContext } from '../context/account-context';
 import { serverURL } from '../utility/environment';
 import { Button } from '../components/ui/Button';
+import { storeToken } from '../utility/account-token';
 
 import './css/Profile.css';
-import { storeToken } from '../utility/account-token';
 
 export const Profile = () => {
   const navigate = useNavigate();
@@ -115,11 +115,15 @@ export const Profile = () => {
               Submit
             </button>
             <Button
-              className="button"
+              className="button-blue"
               name="CANCEL"
               onClick={() => setIsEditing(false)}
             />
-            <Button className="button" name="delete" onClick={deleteAccount} />
+            <Button
+              className="button-red"
+              name="delete"
+              onClick={deleteAccount}
+            />
           </form>
         ) : (
           <>
@@ -127,7 +131,7 @@ export const Profile = () => {
             <h3>Last Name: {accountInfo?.accountInfo?.lastName}</h3>
             <h3>E-mail: {accountInfo?.accountInfo?.email}</h3>
             <Button
-              className="button"
+              className="button-blue"
               name="edit"
               onClick={() => setIsEditing(true)}
             />
