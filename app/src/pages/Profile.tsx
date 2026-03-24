@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { AccountContext } from '../context/account-context';
-import { serverURL, testServerURL } from '../utility/environment';
+import { serverURL } from '../utility/environment';
 import { Button } from '../components/ui/Button';
 
 import './css/Profile.css';
@@ -53,7 +53,7 @@ export const Profile = () => {
       token: accountInfo?.accountInfo?.token,
     };
     try {
-      response = await axios.delete(`${testServerURL}/account/delete`, {
+      response = await axios.delete(`${serverURL}/account/delete`, {
         data: accountData,
       });
       accountInfo.setAccountInfo!({
