@@ -148,3 +148,51 @@ export const updateAccount: RequestHandler = async (req, res, next) => {
   };
   res.json({ account: account, token: newToken, message: 'update succesful' });
 };
+
+export const deleteAccount: RequestHandler = async (req, res, next) => {
+  if (!req.body) {
+    const err = new HttpError('there was no req.body', 500);
+    return next(err);
+  }
+  const data = req.body;
+  let tokenData = null;
+  try {
+    tokenData = jwt.verify(
+      data.token,
+      process.env.SECRET_KEY!,
+    ) as jwt.JwtPayload;
+  } catch (error) {
+    const err = new HttpError('could not verify token', 500);
+    return next(err);
+  }
+
+  let email = null;
+  try {
+    email = tokenData.email;
+  } catch (error) {
+    const err = new HttpError('could not parse token data', 500);
+    return next(err);
+  }
+  let account: TAccount | null = null;
+  try {
+    account = await Account.findOne({ email: email });
+  } catch (error) {
+    const err = new HttpError('could not find account', 500);
+    return next(err);
+  }
+  if (account && data.password) {
+    const isPass = await bcrypt.compare(data.password, account.hashPass);
+    if (isPass) {
+      try {
+        await Account.deleteOne({ email: email });
+      } catch (error) {
+        const err = new HttpError('could not delete account', 500);
+        return next(err);
+      }
+    }
+  } else {
+    const err = new HttpError('no password was provided', 500);
+    return next(err);
+  }
+  res.json({ account: account, message: 'account deleted' });
+};
